@@ -2,6 +2,7 @@
 
 Hi! Welcome on my webapp to create skins on the games Teeworlds and DDraceNetwork<br><br>
 
+## About
 Are you tired of using software like Gimp to create skins? <br>
 Do you find it frustrating to export the skin and try it in the game?<br>
 This webapp is the solution to your problems! ;) <br>
@@ -15,3 +16,11 @@ Hence, I decided to create this webapp to simplify the skin creation process.<br
 Please note that the webapp is currently in the Alpha version, and thus, it may have bugs and limited functionalities. <br>
 I apologize in advance for any inconvenience caused.
 
+## Installation 
+To install the webapp, please follow these steps:
+
+1. Download all the content of the `./public` directory. 
+2. Open the `./public/app.html` file using any web browser such as Google Chrome.
+3. Make sure to keep the directories `./public/assets`, `./public/scripts`, and `./public/styles` in the same directory as `./public/app.html`.
+
+Please note that the webapp has been designed to be used as a non-local application, and it's possible that some assets from the CSS files may not be correctly imported.
