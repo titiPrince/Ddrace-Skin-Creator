@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="styles/tiCheckbox.css">
     <link rel="stylesheet" href="styles/parts.css">
     <link rel="stylesheet" href="styles/layers.css">
+    <link rel="stylesheet" href="styles/coloris.css">
     <script src="scripts/konva.js"></script>
+    <script src="scripts/coloris.js"></script>
     <script src="scripts/tiRange.js"></script>
     <script src="scripts/checkboxMenu.js"></script>
   </head>
   <body>
-    <!-- https://www.w3.org/WAI/tutorials/menus/application-menus-code/ -->
     <div id="menu">
       <ul id="menubar">
         <li aria-haspopup="true" aria-expanded="false">
@@ -23,7 +24,7 @@
           <ul>
             <li value="file-new">New<kbd>Ctrl + N</kbd></li>
             <li value="file-open">Open<kbd>Ctrl + O</kbd></li>
-            <li value="file-export">Save<kbd>Ctrl + S</kbd></li>
+            <li value="file-save">Save<kbd>Ctrl + S</kbd></li>
             <hr class="menu-separator">
             <li value="file-export">Export<kbd>Ctrl + Shift + S</kbd></li>
           </ul>
@@ -33,18 +34,19 @@
           <ul>
             <li value="edit-undo">Undo<kbd>Ctrl + Z</kbd></li>
             <li value="edit-redo">Redo<kbd>Ctrl + Y</kbd></li>
+            <hr class="menu-separator">
             <li value="edit-copy">Copy<kbd>Ctrl + C</kbd></li>
             <li value="edit-paste">Paste<kbd>Ctrl + V</kbd></li>
             <li value="edit-cut">Cut<kbd>Ctrl + X</kbd></li>
             <hr class="menu-separator">
-            <li value="edit-cut">Settings</li>
+            <li value="edit-settings">Settings</li>
           </ul>
         </li>
         <li aria-haspopup="true" aria-expanded="false">
-          Format
+          Upload
           <ul>
-            <li value="">Font</li>
-            <li value="">Text</li>
+            <li value="upload-off">Official</li>
+            <li value="upload-twdata">Teeworlds Data</li>
           </ul>
         </li>
         <li aria-haspopup="true" aria-expanded="false">
@@ -53,6 +55,8 @@
             <li value="view-zoom-default">Zoom 100%<kbd>*</kbd></li>
             <li value="view-zoom-in">Zoom In<kbd>+</kbd></li>
             <li value="view-zoom-out">Zoom Out<kbd>-</kbd></li>
+            <hr class="menu-separator">
+            <li value="view-camera-center">Move camera to center<kbd>/</kbd></li>
           </ul>
         </li>
         <li aria-haspopup="true" aria-expanded="false">
@@ -85,10 +89,9 @@
         </div>
 
         <div id="tools-config">
-          <div class="ticolor">
-
+          <div id="cfg-color-container">
+            <input type="text" name="color" id="cfg-color" value="#e85d92">
           </div>
-          <input type="color" name="color" class="cfg-input" id="cfg-color" value="#000002" change="alert(this.value)">
 
           <div class="tool-config" id="configs-form">
             <label for="cfg-form-size">Size</label>
@@ -104,7 +107,7 @@
 
             <div class="tirange">
               <label class="tirange-label">Size</label>
-              <input type="number" class="tirange-number cfg-input" name="size" id="cfg-pencil-size" min="1" max="500" value="20" readonly/>
+              <input type="number" class="tirange-number cfg-input" name="size" id="cfg-pencil-size" min="1" max="250" value="20" readonly/>
               <div class="tirange-active"></div>
             </div>
 
@@ -132,7 +135,7 @@
 
             <div class="tirange">
               <label class="tirange-label">Size</label>
-              <input type="number" class="tirange-number cfg-input" name="size" id="cfg-eraser-size" min="1" max="500" value="20" readonly/>
+              <input type="number" class="tirange-number cfg-input" name="size" id="cfg-eraser-size" min="1" max="250" value="20" readonly/>
               <div class="tirange-active"></div>
             </div>
 

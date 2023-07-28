@@ -1,4 +1,4 @@
-var toolColors = ["#0"];
+var toolColors = ["#e85d92"];
 
 const Tools = {
   FORMS: 0,

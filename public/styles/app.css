@@ -122,6 +122,27 @@ div.tirange input.tirange-number {
 	color: var(--color-foreground);
 }
 
+div#cfg-color-container {
+	margin-top: 20px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div#cfg-color-container button {
+	width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+div#cfg-color-container input {
+	border: none;
+	border-radius: 5px;
+	width: 90px;
+    height: 35px;
+	background-color: transparent;
+}
+
 
 /* Scrollbar */
 ::-webkit-scrollbar {

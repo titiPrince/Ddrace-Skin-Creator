@@ -1,6 +1,4 @@
 var tool;
-var undoMemory = [];
-var undoIndex = 0;
 
 var maxScale = 50.0;
 var minScale = 0.05;
@@ -169,4 +167,22 @@ window.addEventListener('DOMContentLoaded', function () {
 
   createNewFile("tee", 1);
   changeTool(Tools.PENCIL);
+
+  Coloris({
+    el: "#cfg-color",
+    theme: "polaroid",
+    themeMode: 'dark',
+    formatToggle: false,
+    margin: 0,
+    alpha: false,
+    closeButton: true,
+    closeLabel: 'Close',
+    onChange: (color) => {
+      toolColors.unshift(color);
+
+      if (toolColors.length > 10) {
+        toolColors.pop();
+      }
+    }
+  });
 });

@@ -449,8 +449,6 @@ class Skin {
       height: this.height,
     });
 
-    console.log((this.width * Math.pow(2, factor)) / 256, this.width * ((this.width * Math.pow(2, factor)) / 256));
-
     exportParts.forEach(part => {
       part.destroy();
     });
