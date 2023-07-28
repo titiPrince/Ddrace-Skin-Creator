@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="scripts/konva.js"></script>
+    <meta charset="utf-8" />
+    <style>
+      * {
+        user-select: none;
+      }
+      
+      div.tirange {
+        width: 250px;
+        height: 30px;
+        background-color: #ccc;
+        display: flex;
+        position: relative;
+        align-items: center;
+        cursor: col-resize;
+      }
+      
+      div.tirange div.tirange-active {
+        height: 100%;
+        width: 0px;
+        background-color: aquamarine;
+      }
+      
+      div.tirange input.tirange-number {
+        width: 70px;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        right: 0px;
+        text-align-last: end;
+        position: absolute;
+      }
+      
+      div.tirange label.tirange-label {
+        cursor: col-resize;
+        position: absolute;
+          left: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="area">
+      <div class="tirange">
+        <input type="number" class="tirange-number" min="1" max="500" value="250" readonly/>
+        <div class="tirange-active"></div>
+      </div>
+      <div class="tirange">
+        <input type="number" class="tirange-number" min="-50" value="-5" readonly/>
+        <div class="tirange-active"></div>
+      </div>
+    </div>
+  
+    <script>
+      var activeRange = null;
+      
+
+      function setRangeByValue(range, value) {
+        const rect = range.getBoundingClientRect();
+        const activePath = range.querySelector('.tirange-active');
+        let rangeNumber = range.querySelector('.tirange-number');
+        const min = parseInt(rangeNumber.min || 0, 10);
+        const max = parseInt(rangeNumber.max || 100, 10);
+        value = Math.max(min, Math.min(value, max));
+        
+        let offset = ((parseFloat(value) - min) / (max - min)) * rect.width
+        offset = Math.max(0, Math.min(offset, rect.width));
+        
+        activePath.style.width = `${offset}px`;
+
+        const event = new CustomEvent("change", {
+          detail: value
+        });
+
+        range.dispatchEvent(event);
+      }
+
+      function setRangeByX(range, x) {
+        const rect = range.getBoundingClientRect();
+        let rangeNumber = range.querySelector('.tirange-number');
+        const min = parseInt(rangeNumber.min || 0, 10);
+        const max = parseInt(rangeNumber.max || 100, 10);
+        const offset = Math.max(0, Math.min(x - rect.left, rect.width));
+
+        const activePath = range.querySelector('.tirange-active');
+        activePath.style.width = `${offset}px`;
+  
+        rangeNumber.value = Math.round(min + (offset / rect.width) * (max - min));
+
+        const event = new CustomEvent("change", {
+          detail: rangeNumber.value
+        });
+
+        range.dispatchEvent(event);
+      }
+
+      function setRangeByDefault(range) {
+        let rangeNumber = range.querySelector('.tirange-number');
+        setRangeByValue(range, rangeNumber.value)
+      }
+  
+      function triggerMouseMove(event) {
+        if (!activeRange) return;
+  
+        setRangeByX(activeRange, event.x);
+      }
+  
+      function triggerMouseUp(event) {
+        if (!activeRange) return;
+  
+        document.removeEventListener("mousemove", triggerMouseMove);
+        document.removeEventListener("mouseup", triggerMouseUp);
+
+        activeRange = null;
+      }
+  
+      window.addEventListener('DOMContentLoaded', () => {
+        const ranges = document.querySelectorAll(".tirange");
+        const rangeNumbers = document.querySelectorAll('.tirange-number');
+
+        for (let rangeNumber of rangeNumbers) {
+          rangeNumber.addEventListener('mousedown', function(event) {
+            if (!rangeNumber.hasAttribute('readonly')) return;
+            event.preventDefault();
+          });
+
+          rangeNumber.addEventListener('dblclick', function(event) {
+            rangeNumber.removeAttribute("readonly");
+            rangeNumber.focus();
+            rangeNumber.select();
+          });
+
+          rangeNumber.addEventListener('focusout', function(event) {
+            rangeNumber.blur();
+            rangeNumber.setAttribute("readonly", true);
+
+            setRangeByValue(rangeNumber.parentElement, rangeNumber.value);
+          });
+
+          rangeNumber.addEventListener('keypress', function(event) {
+            if (event.key !== "Enter") return;
+
+            rangeNumber.blur();
+            rangeNumber.setAttribute("readonly", true);
+
+            setRangeByValue(rangeNumber.parentElement, rangeNumber.value);
+          });
+        }
+  
+        for (const range of ranges) {
+          setRangeByDefault(range);
+
+          range.addEventListener("mousedown", (event) => {
+            activeRange = range;
+
+            setRangeByX(range, event.x);
+
+            document.addEventListener("mousemove", triggerMouseMove);
+            document.addEventListener("mouseup", triggerMouseUp);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

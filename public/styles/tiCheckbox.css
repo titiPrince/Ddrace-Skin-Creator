@@ -1,0 +1,7 @@
+div.ticheckbox {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}

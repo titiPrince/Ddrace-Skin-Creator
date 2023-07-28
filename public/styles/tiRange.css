@@ -1,0 +1,43 @@
+* {
+	user-select: none;
+}
+
+div.tirange {
+	height: 30px;
+	background-color: #ccc;
+	display: flex;
+	position: relative;
+	align-items: center;
+	cursor: col-resize;
+}
+
+div.tirange div.tirange-active {
+	height: 100%;
+	width: 0px;
+	background-color: aquamarine;
+}
+
+div.tirange input.tirange-number {
+	width: 70px;
+	border: none;
+	background-color: transparent;
+	outline: none;
+	right: 0px;
+	text-align-last: end;
+	position: absolute;
+}
+
+div.tirange label.tirange-label {
+	cursor: col-resize;
+	position: absolute;
+    left: 10px;
+}
+
+div.ticheckbox div.ticheckbox-input-container {
+	display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 5px;
+}

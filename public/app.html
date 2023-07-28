@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-mode">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>DDrace Skin Creator</title>
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/tiRange.css">
+    <link rel="stylesheet" href="styles/app.css">
+    <link rel="stylesheet" href="styles/tiCheckbox.css">
+    <link rel="stylesheet" href="styles/parts.css">
+    <link rel="stylesheet" href="styles/layers.css">
+    <script src="scripts/konva.js"></script>
+    <script src="scripts/tiRange.js"></script>
+    <script src="scripts/checkboxMenu.js"></script>
+  </head>
+  <body>
+    <!-- https://www.w3.org/WAI/tutorials/menus/application-menus-code/ -->
+    <div id="menu">
+      <ul id="menubar">
+        <li aria-haspopup="true" aria-expanded="false">
+          File
+          <ul>
+            <li value="file-new">New<kbd>Ctrl + N</kbd></li>
+            <li value="file-open">Open<kbd>Ctrl + O</kbd></li>
+            <li value="file-export">Save<kbd>Ctrl + S</kbd></li>
+            <hr class="menu-separator">
+            <li value="file-export">Export<kbd>Ctrl + Shift + S</kbd></li>
+          </ul>
+        </li>
+        <li aria-haspopup="true" aria-expanded="false">
+          Edit
+          <ul>
+            <li value="edit-undo">Undo<kbd>Ctrl + Z</kbd></li>
+            <li value="edit-redo">Redo<kbd>Ctrl + Y</kbd></li>
+            <li value="edit-copy">Copy<kbd>Ctrl + C</kbd></li>
+            <li value="edit-paste">Paste<kbd>Ctrl + V</kbd></li>
+            <li value="edit-cut">Cut<kbd>Ctrl + X</kbd></li>
+            <hr class="menu-separator">
+            <li value="edit-cut">Settings</li>
+          </ul>
+        </li>
+        <li aria-haspopup="true" aria-expanded="false">
+          Format
+          <ul>
+            <li value="">Font</li>
+            <li value="">Text</li>
+          </ul>
+        </li>
+        <li aria-haspopup="true" aria-expanded="false">
+          View
+          <ul>
+            <li value="view-zoom-default">Zoom 100%<kbd>*</kbd></li>
+            <li value="view-zoom-in">Zoom In<kbd>+</kbd></li>
+            <li value="view-zoom-out">Zoom Out<kbd>-</kbd></li>
+          </ul>
+        </li>
+        <li aria-haspopup="true" aria-expanded="false">
+          Help
+          <ul>
+            <li value="help-tuto">Tutorials</li>
+            <li value="help-source">Source code</li>
+            <hr class="menu-separator">
+            <p class="credits">Created by tiPrince<br>Inspired by <a target="_blank" href="https://www.gimp.org/">Gimp</a></p>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="container">
+      <div id="left-panel">
+        <div id="tools">
+          <button type="button" class="tool-btn" id="tool-form" onclick="changeTool(0, this);">
+            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="512" height="512"><circle cx="12" cy="17" r="6"/><path d="M11.383,9.024,7.706,2.653a1,1,0,0,0-1.732,0L0,13H5.074A8.008,8.008,0,0,1,11.383,9.024Z"/><path d="M13,4V9.062A8.022,8.022,0,0,1,19.747,15H24V4Z"/></svg>
+          </button>
+          <button type="button" class="tool-btn" id="tool-pencil" onclick="changeTool(1, this);">
+            <svg id="Layer_1" height="512" viewBox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m.024 23.976.076-1.05c.076-1.1.545-6.688 2.307-8.451a5.036 5.036 0 0 1 7.118 7.125c-1.762 1.762-7.349 2.23-8.452 2.306zm23.076-23.108a3.137 3.137 0 0 0 -4.333 0l-10.515 10.519a6.967 6.967 0 0 1 4.342 4.324l10.506-10.511a3.067 3.067 0 0 0 0-4.332z"/></svg>
+          </button>
+          <button type="button" class="tool-btn" id="tool-eraser" onclick="changeTool(2, this);">
+            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="512" height="512"><path d="m7.242,7.438L12.751,1.911c1.17-1.175,3.213-1.175,4.383,0l5.935,5.955c1.206,1.21,1.206,3.179,0,4.389l-5.506,5.525L7.242,7.438Zm7.111,13.562l1.798-1.804L5.83,8.855.882,13.82c-1.206,1.21-1.206,3.179,0,4.389l4.774,4.791h18.344v-2h-9.647Z"/></svg>
+          </button>
+          <button type="button" class="tool-btn" id="tool-fill" onclick="changeTool(3, this);">
+            <svg id="Layer_1" height="512" viewBox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m21.45 13.864-8.672 8.672a5.006 5.006 0 0 1 -7.071 0l-4.242-4.243a5 5 0 0 1 0-7.071l5.9-5.9-2.854-2.893a1 1 0 1 1 1.422-1.4l8.97 9.081.009.013a.995.995 0 0 0 1.376-1.436l-7.21-7.3a1 1 0 0 1 1.629-1.094l13 13a1 1 0 1 1 -1.414 1.414zm-.758 4.567c-.731 1.061-1.692 2.294-1.692 3.069a2.5 2.5 0 0 0 5 0c0-.849-.945-2.044-1.673-3.078a1 1 0 0 0 -1.635.009z"/></svg>
+          </button>
+        </div>
+
+        <div id="tools-config">
+          <div class="ticolor">
+
+          </div>
+          <input type="color" name="color" class="cfg-input" id="cfg-color" value="#000002" change="alert(this.value)">
+
+          <div class="tool-config" id="configs-form">
+            <label for="cfg-form-size">Size</label>
+            <input type="number" class="config-form cfg-input" name="size" id="cfg-form-size" value="20">
+          </div>
+
+          <div class="tool-config" id="configs-pencil">
+            <div class="tirange">
+              <label class="tirange-label">Opacity</label>
+              <input type="number" class="tirange-number cfg-input" name="opacity" id="cfg-pencil-opacity" min="0.0" max="1.0" value="1.0" step="0.01" readonly/>
+              <div class="tirange-active"></div>
+            </div>
+
+            <div class="tirange">
+              <label class="tirange-label">Size</label>
+              <input type="number" class="tirange-number cfg-input" name="size" id="cfg-pencil-size" min="1" max="500" value="20" readonly/>
+              <div class="tirange-active"></div>
+            </div>
+
+            <div class="ticheckbox">
+              <div class="ticheckbox-input-container">
+                <input type="checkbox" class="cfg-input checkbox-menu" name="smoothLine" id="cfg-pencil-smooth-line">
+                <label for="cfg-pencil-smooth-line">Smooth line</label>
+              </div>
+              <div class="checkbox-menu-container">
+                <div class="tirange">
+                  <label class="tirange-label">Strenght</label>
+                  <input type="number" class="tirange-number cfg-input" name="smoothLineStrenght" id="cfg-pencil-smooth-line-strenght" min="1" max="100" value="5" readonly/>
+                  <div class="tirange-active"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-config" id="configs-eraser">
+            <div class="tirange">
+              <label class="tirange-label">Opacity</label>
+              <input type="number" class="tirange-number cfg-input" name="opacity" id="cfg-eraser-opacity" min="0.0" max="1.0" value="1.0" step="0.01" readonly/>
+              <div class="tirange-active"></div>
+            </div>
+
+            <div class="tirange">
+              <label class="tirange-label">Size</label>
+              <input type="number" class="tirange-number cfg-input" name="size" id="cfg-eraser-size" min="1" max="500" value="20" readonly/>
+              <div class="tirange-active"></div>
+            </div>
+
+            <div class="ticheckbox">
+              <div class="ticheckbox-input-container">
+                <input type="checkbox" class="cfg-input checkbox-menu" name="smoothLine" id="cfg-eraser-smooth-line">
+                <label for="cfg-eraser-smooth-line">Smooth line</label>
+              </div>
+              <div class="checkbox-menu-container">
+                <div class="tirange">
+                  <label class="tirange-label">Strenght</label>
+                  <input type="number" class="tirange-number cfg-input" name="smoothLineStrenght" id="cfg-eraser-smooth-line-strenght" min="1" max="100" value="5" readonly/>
+                  <div class="tirange-active"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-config" id="configs-fill"></div>
+        </div>
+      </div>
+
+      <div id="main"></div>
+
+      <div id="right-panel">
+        <div id="layers-manager">
+          <div id="layers">
+          </div>
+
+          <div id="layers-tools">
+            <button type="button" class="btn-layers-tool" id="add-layer">
+              <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="512" height="512"><path d="M0,7.23c0-.352,.184-.677,.485-.857L10.347,.456c1.021-.613,2.287-.613,3.307,0l9.861,5.917c.301,.181,.485,.506,.485,.857s-.184,.677-.485,.857l-9.861,5.917c-.51,.306-1.082,.458-1.653,.459-.572,0-1.143-.153-1.653-.459L.485,8.088c-.301-.181-.485-.506-.485-.857Zm23,11.77h-2v-2c0-.553-.448-1-1-1s-1,.447-1,1v2h-2c-.552,0-1,.447-1,1s.448,1,1,1h2v2c0,.553,.448,1,1,1s1-.447,1-1v-2h2c.552,0,1-.447,1-1s-.448-1-1-1Zm-10.485,2.914L1.515,15.314c-.475-.285-1.089-.131-1.372,.343-.284,.474-.131,1.088,.343,1.372l11,6.6c.161,.097,.338,.143,.514,.143,.34,0,.671-.173,.858-.485,.284-.474,.131-1.088-.343-1.372Zm9.971-11.167l-10.485,6.291L1.515,10.747c-.475-.285-1.089-.132-1.372,.343-.284,.474-.131,1.088,.343,1.372l11,6.6c.159,.095,.336,.143,.515,.143s.356-.048,.515-.143l11-6.6c.474-.284,.627-.898,.343-1.372s-.898-.627-1.372-.343Z"/></svg>
+            </button>
+            <button type="button" class="btn-layers-tool" id="add-group">
+              <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="512" height="512"><path d="m22,18.172V5.828c1.164-.413,2-1.524,2-2.828,0-1.654-1.346-3-3-3-1.304,0-2.415.836-2.828,2H5.828c-.413-1.164-1.524-2-2.828-2C1.346,0,0,1.346,0,3c0,1.304.836,2.415,2,2.828v12.344c-1.164.413-2,1.524-2,2.828,0,1.654,1.346,3,3,3,1.304,0,2.415-.836,2.828-2h12.344c.413,1.164,1.524,2,2.828,2,1.654,0,3-1.346,3-3,0-1.304-.836-2.415-2-2.828Zm-3.828,1.828H5.828c-.302-.851-.977-1.526-1.828-1.828V5.828c.851-.302,1.526-.977,1.828-1.828h12.344c.302.851.977,1.526,1.828,1.828v12.344c-.851.302-1.526.977-1.828,1.828Zm-4.172-9v-2c0-1.103-.897-2-2-2h-4c-1.103,0-2,.897-2,2v2c0,1.103.897,2,2,2h4c1.103,0,2-.897,2-2Zm4,2v2c0,1.105-.895,2-2,2h-4c-1.103,0-2-.897-2-2h2c2.209,0,4-1.791,4-4h0c1.103,0,2,.897,2,2Z"/></svg>
+            </button>
+            <button type="button" class="btn-layers-tool" id="move-up">
+              <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="512" height="512"><path d="M22.5,18a1.5,1.5,0,0,1-1.061-.44L13.768,9.889a2.5,2.5,0,0,0-3.536,0L2.57,17.551A1.5,1.5,0,0,1,.449,15.43L8.111,7.768a5.505,5.505,0,0,1,7.778,0l7.672,7.672A1.5,1.5,0,0,1,22.5,18Z"/></svg>
+            </button>
+            <button type="button" class="btn-layers-tool" id="move-down">
+              <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="512" height="512"><path d="M1.51,6.079a1.492,1.492,0,0,1,1.06.44l7.673,7.672a2.5,2.5,0,0,0,3.536,0L21.44,6.529A1.5,1.5,0,1,1,23.561,8.65L15.9,16.312a5.505,5.505,0,0,1-7.778,0L.449,8.64A1.5,1.5,0,0,1,1.51,6.079Z"/></svg>
+            </button>
+            <button type="button" class="btn-layers-tool" id="remove">
+              <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24"><path d="m22,4h-4.101c-.465-2.279-2.484-4-4.899-4h-2c-2.414,0-4.434,1.721-4.899,4H2c-.552,0-1,.447-1,1s.448,1,1,1h.86l1.296,13.479c.248,2.578,2.388,4.521,4.977,4.521h5.727c2.593,0,4.733-1.947,4.978-4.528l1.276-13.472h.885c.552,0,1-.447,1-1s-.448-1-1-1Zm-11-2h2c1.302,0,2.402.839,2.816,2h-7.631c.414-1.161,1.514-2,2.816-2Zm4.707,14.293c.391.391.391,1.023,0,1.414-.195.195-.451.293-.707.293s-.512-.098-.707-.293l-2.293-2.293-2.293,2.293c-.195.195-.451.293-.707.293s-.512-.098-.707-.293c-.391-.391-.391-1.023,0-1.414l2.293-2.293-2.293-2.293c-.391-.391-.391-1.023,0-1.414s1.023-.391,1.414,0l2.293,2.293,2.293-2.293c.391-.391,1.023-.391,1.414,0s.391,1.023,0,1.414l-2.293,2.293,2.293,2.293Z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="tiles">
+          <div id="teeskin-parts">
+            <img src="assets/parts/skin/head.png" alt="Head" id="tee-part-head" data-name="Head" data-part-id="0" title="Head">
+            <img src="assets/parts/skin/head-shadow.png" alt="Head shadow" id="tee-part-head-shadow" data-name="Head shadow" data-part-id="1" title="Head shadow">
+            <img src="assets/parts/skin/hand.png" alt="Hands" id="tee-part-hand" data-name="Hands" data-part-id="2" title="Hands">
+            <img src="assets/parts/skin/hand-shadow.png" alt="Hands shadow" id="tee-part-hand-shadow" data-name="Hands shadow" data-part-id="3" title="Hands shadow">
+            <img src="assets/parts/skin/feet.png" alt="Feets" id="tee-part-feet" data-name="Feets" data-part-id="4" title="Feets">
+            <img src="assets/parts/skin/feet-shadow.png" alt="Feets shadow" id="tee-part-feet-shadow" data-name="Feets shadow" data-part-id="5" title="Feets shadow">
+            <img src="assets/parts/skin/author.png" alt="Author" id="tee-part-author" data-name="Author" data-part-id="6" title="Author">
+            <img src="assets/parts/skin/eyes-normal.png" alt="Normal eyes" id="tee-part-eyes-normal" data-name="Normal eyes" data-part-id="7" title="Normal eyes">
+            <img src="assets/parts/skin/eyes-angry.png" alt="Angry eyes" id="tee-part-eyes-angry" data-name="Angry eyes" data-part-id="8" title="Angry eyes">
+            <img src="assets/parts/skin/eyes-sorry.png" alt="Sad eyes" id="tee-part-eyes-sorry" data-name="Sad eyes" data-part-id="9" title="Sad eyes">
+            <img src="assets/parts/skin/eyes-happy.png" alt="Happy eyes" id="tee-part-eyes-happy" data-name="Happy eyes" data-part-id="10" title="Happy eyes">
+            <img src="assets/parts/skin/eyes-dead.png" alt="Dead eyes" id="tee-part-eyes-dead" data-name="Dead eyes" data-part-id="11" title="Dead eyes">
+            <img src="assets/parts/skin/eyes-shocked.png" alt="Shocked eyes" id="tee-part-eyes-shocked" data-name="Shocked eyes" data-part-id="12" title="Shocked eyes">
+          </div>
+
+          <img id="preview" src="" alt="">
+        </div>
+      </div>
+    </div>
+    <script src="scripts/layers.js"></script>
+    <script src="scripts/tools.js"></script>
+    <script src="scripts/parts.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/menu.js"></script>
+  </body>
+</html>
