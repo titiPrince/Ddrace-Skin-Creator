@@ -1,3 +1,4 @@
+/* Manager */
 div#layers-manager {
     height: 300px;
     display: flex;
@@ -9,6 +10,7 @@ div#layers-manager {
     padding-top: 5px;
     padding-bottom: 5px;
     gap: 10px;
+    width: 198px;
 }
 
 div#layers {
@@ -51,6 +53,8 @@ div#layers-tools svg {
     fill: var(--color-foreground);
 }
 
+
+/* Layers */
 div.layer button.layer-hide-btn {
     width: 30px;
     height: 25px;
@@ -105,6 +109,59 @@ div.layer input.layer-name:read-only {
 }
 
 div.layer input.layer-name:not([readonly]) {
+    background-color: white;
+}
+
+
+/* Groups */
+div.group button.group-hide-btn {
+    width: 30px;
+    height: 25px;
+}
+
+div.group button.group-hide-btn svg {
+    width: 15px;
+    height: 15px;
+    fill: var(--color-foreground);
+}
+
+div.group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border: 1px solid var(--color-container-border);
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+div.group:hover {
+    background-color: var(--color-container-select);
+    cursor: pointer;
+}
+
+div.group.current {
+    background-color: var(--color-container-select);
+    cursor: default;
+}
+
+div.group input.group-name {
+    user-select: none;
+    appearance: none;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    text-overflow: ellipsis;
+    margin-left: 5px;
+}
+
+div.group input.group-name:read-only {
+    cursor: unset;
+}
+
+div.group input.group-name:not([readonly]) {
     background-color: white;
 }
 

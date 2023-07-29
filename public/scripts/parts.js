@@ -100,9 +100,66 @@ class tiLayer extends Konva.Group {
     super(options);
     
     this.partVisible = options.partVisible || true;
-    this.html = options.layerHtml || null;
-    this.preview = this.html.querySelector("img");
-    // this.group;
+    this.preview = null;
+    this.html = null;
+  }
+
+  buildHtml() {
+    this.html = document.createElement("div");
+    this.html.classList.add("layer");
+    this.html.dataset.id = this.id();
+    
+    this.preview = document.createElement("img");
+    this.preview.classList.add("layer-preview");
+    
+    let newInputName = document.createElement("input");
+    newInputName.type = "text";
+    newInputName.classList.add("layer-name");
+    newInputName.value = this.name();
+    newInputName.title = this.name();
+    newInputName.readOnly = true;
+  
+    newInputName.addEventListener('mousedown', function(event) {
+      if (!event.target.hasAttribute('readonly')) return;
+      event.preventDefault();
+    });
+  
+    newInputName.addEventListener('click', function(event) {
+      event.preventDefault();
+    });
+  
+    newInputName.addEventListener('dblclick', function(event) {
+      event.preventDefault();
+      event.target.readOnly = false;
+      event.target.select();
+    });
+  
+    newInputName.addEventListener('change', function(event) {
+      event.target.title = event.target.value;
+      event.target.readOnly = true;
+    });
+  
+    newInputName.addEventListener('focusout', function(event) {
+      event.target.readOnly = true;
+    });
+    
+    let newHideBtn = document.createElement("button");
+    newHideBtn.setAttribute("type", "button");
+    newHideBtn.classList.add("layer-hide-btn");
+    newHideBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.19 512.19" style="enable-background:new 0 0 512.19 512.19;" xml:space="preserve" width="512" height="512"><g><circle cx="256.095" cy="256.095" r="85.333"/><path d="M496.543,201.034C463.455,147.146,388.191,56.735,256.095,56.735S48.735,147.146,15.647,201.034   c-20.862,33.743-20.862,76.379,0,110.123c33.088,53.888,108.352,144.299,240.448,144.299s207.36-90.411,240.448-144.299   C517.405,277.413,517.405,234.777,496.543,201.034z M256.095,384.095c-70.692,0-128-57.308-128-128s57.308-128,128-128   s128,57.308,128,128C384.024,326.758,326.758,384.024,256.095,384.095z"/></g></svg>';
+  
+    this.html.append(this.preview, newInputName, newHideBtn);
+  
+    layersContainer.insertBefore(this.html, layersContainer.firstChild);
+  
+    newInputName.dispatchEvent(new Event('dblclick'));
+
+    const layerId = this.id();
+  
+    this.html.addEventListener("click", function(event) {
+      if (event.target.tagName === "button") return;
+      currentPart.changeActiveLayer(layerId);
+    });
   }
 
   partToggleVisibility() {
@@ -133,7 +190,115 @@ class tiLayer extends Konva.Group {
   }
 }
 
+
+class tiGroup extends Konva.Group {
+  constructor(options = null) {
+    super(options);
+    
+    this.partVisible = options.partVisible || true;
+    this.color = options.backColor || "#aaa";
+    this.html = null;
+  }
+
+  buildHtml() {
+    this.html = document.createElement("div");
+    this.html.classList.add("group");
+    this.html.dataset.id = this.id();
+    this.html.style.backgroundColor = this.color;
+    
+    let newInputName = document.createElement("input");
+    newInputName.type = "text";
+    newInputName.classList.add("group-name");
+    newInputName.value = this.name();
+    newInputName.title = this.name();
+    newInputName.readOnly = true;
+  
+    newInputName.addEventListener('mousedown', function(event) {
+      if (!event.target.hasAttribute('readonly')) return;
+      event.preventDefault();
+    });
+  
+    newInputName.addEventListener('click', function(event) {
+      event.preventDefault();
+    });
+  
+    newInputName.addEventListener('dblclick', function(event) {
+      event.preventDefault();
+      event.target.readOnly = false;
+      event.target.select();
+    });
+  
+    newInputName.addEventListener('change', function(event) {
+      event.target.title = event.target.value;
+      event.target.readOnly = true;
+    });
+  
+    newInputName.addEventListener('focusout', function(event) {
+      event.target.readOnly = true;
+    });
+    
+    let newHideBtn = document.createElement("button");
+    newHideBtn.setAttribute("type", "button");
+    newHideBtn.classList.add("group-hide-btn");
+    newHideBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.19 512.19" style="enable-background:new 0 0 512.19 512.19;" xml:space="preserve" width="512" height="512"><g><circle cx="256.095" cy="256.095" r="85.333"/><path d="M496.543,201.034C463.455,147.146,388.191,56.735,256.095,56.735S48.735,147.146,15.647,201.034   c-20.862,33.743-20.862,76.379,0,110.123c33.088,53.888,108.352,144.299,240.448,144.299s207.36-90.411,240.448-144.299   C517.405,277.413,517.405,234.777,496.543,201.034z M256.095,384.095c-70.692,0-128-57.308-128-128s57.308-128,128-128   s128,57.308,128,128C384.024,326.758,326.758,384.024,256.095,384.095z"/></g></svg>';
+
+    this.html.append(newInputName, newHideBtn);
+  
+    layersContainer.insertBefore(this.html, layersContainer.firstChild);
+  
+    newInputName.dispatchEvent(new Event('dblclick'));
+
+    const groupId = this.id();
+  
+    this.html.addEventListener("click", function(event) {
+      if (event.target.tagName === "button") return;
+      currentPart.changeActiveLayer(groupId);
+    });
+  }
+
+  partToggleVisibility() {
+    return this.partVisible = ! this.partVisible;
+  }
+
+  renderToImage() {
+    renderer.show();
+    renderer.clip({
+      x: 0,
+      y: 0,
+      width: this.width(),
+      height: this.height()
+    });
+
+    let clonedLayer = this.clone({x: 0, y: 0});
+
+    renderer.add(clonedLayer);
+
+    let image = renderer.toDataURL({
+      pixelRatio: 0.5,
+      width: 96,
+      height: 96,
+    });
+
+    this.preview.src = image;
+    clonedLayer.destroy();
+  }
+}
+
+
 class Part {
+  groupColors = [
+    "#e85d5daa",
+    "#e8905daa",
+    "#e8cf5daa",
+    "#bae85daa",
+    "#5de866aa",
+    "#5de8dcaa",
+    "#5da5e8aa",
+    "#615de8aa",
+    "#ae5de8aa",
+    "#e85d97aa",
+  ]
+
   constructor(id, offset, preview, sizeTile, pixelRatio, pixelFactor = 1) {
     this._idCount = 0;
     this.id = id;
@@ -153,9 +318,11 @@ class Part {
       y: (main.height() / 2) - this.height / 2,
     }
 
-    this.layers = [];
-    this.groups = [];
-    this.group = new Konva.Group({
+    this.groupColorPtr = 0;
+
+    this.childs = [];
+    this.layerCount = 0;
+    this.container = new Konva.Group({
       x: this.position.x,
       y: this.position.y,
       width: this.width,
@@ -182,9 +349,9 @@ class Part {
     });
 
     filter.globalCompositeOperation("destination-out");
-    this.group.add(filter);
+    this.container.add(filter);
 
-    main.add(this.group);
+    main.add(this.container);
 
     this.createLayer = this.createLayer.bind(this);
     this.undoAction = this.undoAction.bind(this);
@@ -192,7 +359,7 @@ class Part {
 
     this.createLayer("main");
 
-    this.activeLayer = this.layers[0];
+    this.activeLayer = this.childs[0];
 
     this.lastPreviews = [];
     this.actions = [];
@@ -201,41 +368,40 @@ class Part {
 
   changeActiveLayer(id) {
     this.activeLayer.html.classList.remove("current");
-    this.activeLayer = this.layers[id];
+    this.activeLayer = this.childs[id];
     currentLayer = this.activeLayer;
     this.activeLayer.html.classList.add("current")
   }
 
   move(pos) {
-    this.group.move(pos);
-    this.position = this.group.position();
+    this.container.move(pos);
+    this.position = this.container.position();
   }
 
   setPosition(pos) {
-    this.group.position(pos);
+    this.container.position(pos);
     this.position = pos;
   }
 
   setScale(scale) {
-    this.group.scale({x: scale, y: scale});
+    this.container.scale({x: scale, y: scale});
     this.scale = scale;
   }
 
-  createGroup(name) {}
-
-  createLayer(name) {
+  createGroup(name) {
     let id = this._idCount++;
-    let layerHtml = addLayerHTML(id, name);
+    this.groupColorPtr = ++this.groupColorPtr % this.groupColors.length;
 
-    let newLayer = new tiLayer({
+    let newGroup = new tiGroup({
       id: id,
+      name: name,
       x: 0,
       y: 0,
       width: this.width,
       height: this.height,
       visible: true,
       partVisible: true,
-      layerHtml: layerHtml,
+      backColor: this.groupColors[this.groupColorPtr],
       clip: {
         x: 0,
         y: 0,
@@ -246,37 +412,76 @@ class Part {
       listening: false
     });
 
-    
+    newGroup.buildHtml();
 
-    let layerId = this.layers.push(newLayer) - 1;
-    this.group.add(newLayer);
+    let groupId = this.childs.push(newGroup) - 1;
+    this.container.add(newGroup);
+
+    return groupId;
+  }
+
+  createLayer(name) {
+    let id = this._idCount++;
+
+    let newLayer = new tiLayer({
+      id: id,
+      name: name,
+      x: 0,
+      y: 0,
+      width: this.width,
+      height: this.height,
+      visible: true,
+      partVisible: true,
+      clip: {
+        x: 0,
+        y: 0,
+        width: this.width,
+        height: this.height
+      },
+      hitStrokeWidth: 0,
+      listening: false
+    });
+
+    newLayer.buildHtml();
+
+    let layerId = this.childs.push(newLayer) - 1;
+    this.container.add(newLayer);
+    this.layerCount++;
 
     return layerId;
   }
 
-  hide() {
-    this.group.hide();
+  removeCurrentChild() {
+    if (this.layerCount <= 1) return;
 
-    for (let layer of this.layers) {
+    layersContainer.removeChild(this.activeLayer.html);
+    this.activeLayer.destroy();
+    // Not finished --------------------------------------------------------------------
+  }
+
+  hide() {
+    this.container.hide();
+
+    for (let layer of this.childs) {
       layer.html.style.display = "none";
     }
   }
 
   show() {
-    this.group.show();
+    this.container.show();
 
-    for (const layer of this.layers) {
+    for (const layer of this.childs) {
       layer.html.style.display = "flex";
     }
   }
 
   showOnly(id) { // a revoir
-    for (const layer of this.layers) {
+    for (const layer of this.childs) {
       layer.partVisible = false;
     }
 
-    this.layers[id].partVisible = true;
-    this.layers[id].show();
+    this.childs[id].partVisible = true;
+    this.childs[id].show();
   }
 
   updatePreview(previewScale) {
@@ -295,7 +500,7 @@ class Part {
       let newX = data.pos.x * (currentSkin.widthPreview - (this.width * scale));
       let newY = data.pos.y * (currentSkin.heightPreview - (this.height * scale));
       
-      let clonedPart = this.group.clone({
+      let clonedPart = this.container.clone({
         id: this.id,
         name: "preview",
         rotation: data.rot,
@@ -317,7 +522,7 @@ class Part {
     let newX = this.offset.x * this.pixelByTile.x;
     let newY = this.offset.y * this.pixelByTile.y;
 
-    let clonedPart = this.group.clone({
+    let clonedPart = this.container.clone({
       x: newX,
       y: newY,
       width: this.sizeTile.x * this.pixelByTile.x,
@@ -459,6 +664,7 @@ class Skin {
 
 function createNewFile(type, sizeFactor = 1) {
   currentSkin = new Skin(type, sizeFactor);
+  currentPart.changeActiveLayer(0);
 }
 
 window.addEventListener('DOMContentLoaded', () => {

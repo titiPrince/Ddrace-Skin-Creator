@@ -56,6 +56,7 @@ class Tool {
   equip() {}
 
   static updateUI() {
+    console.log(currentLayer);
     currentLayer.renderToImage();
     currentSkin.updatePreview();
   }
